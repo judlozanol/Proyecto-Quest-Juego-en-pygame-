@@ -1,4 +1,5 @@
 import pygame
+from ajustes import *
 
 class Pirata(pygame.sprite.Sprite):
     def __init__(self,pos):
@@ -7,6 +8,7 @@ class Pirata(pygame.sprite.Sprite):
         self.image.fill("black")
         self.rect = self.image.get_rect(topleft=pos)
         self.direction= pygame.math.Vector2(0,0)
+        self.rapidez=8
     def get_input(self):
         teclas = pygame.key.get_pressed()
 
@@ -25,5 +27,5 @@ class Pirata(pygame.sprite.Sprite):
             self.direction.y = 0
     def update(self):
         self.get_input()
-        self.rect.x+= self.direction.x*5
-        self.rect.y+= self.direction.y*5
+        self.rect.x+= self.direction.x*self.rapidez
+        self.rect.y+= self.direction.y*self.rapidez
