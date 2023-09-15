@@ -29,3 +29,11 @@ class Pirata(pygame.sprite.Sprite):
         self.get_input()
         self.rect.x+= self.direction.x*self.rapidez
         self.rect.y+= self.direction.y*self.rapidez
+        if self.rect.right < 0:
+            self.rect.left = ancho_pantalla
+        elif self.rect.left > ancho_pantalla:
+            self.rect.right = 0
+        if self.rect.bottom < 0:
+            self.rect.top = alto_pantalla
+        elif self.rect.top > alto_pantalla:
+            self.rect.bottom = 0
