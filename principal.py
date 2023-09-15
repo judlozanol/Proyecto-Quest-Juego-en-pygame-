@@ -8,7 +8,7 @@ pantalla=pygame.display.set_mode((ancho_pantalla, alto_pantalla))
 clock= pygame.time.Clock()
 jugando=True
 
-nivel = Nivel(2,pantalla)#Un nivel especifico
+nivel = Nivel(2,1,pantalla)#Un nivel especifico
 while jugando:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
