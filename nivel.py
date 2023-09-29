@@ -41,7 +41,7 @@ class Nivel:
         self.tiles_bomb = pygame.sprite.Group()
         self.tiles_booster = pygame.sprite.Group()
         self.tiles_treasure = pygame.sprite.GroupSingle()
-        self.player_pirate = pygame.sprite.GroupSingle()
+        self.player = pygame.sprite.GroupSingle()
         self.tiles_sand=pygame.sprite.Group()
         for row_index,row in enumerate(self.estructura):
             for column_index,column in enumerate(row):
@@ -57,8 +57,8 @@ class Nivel:
                     tile= Tile((x,y),tamaño_recuadro, "green")
                     self.tiles_treasure.add(tile)
                 elif column=="J":
-                    self.player= Pirata((x,y))
-                    self.player_pirate.add(self.player)
+                    player= Pirata((x,y))
+                    self.player.add(player)
                 if column=="J" or column==" ":
                     tile= Tile((x,y),tamaño_recuadro, "yellow")
                     self.tiles_sand.add(tile)
@@ -70,5 +70,5 @@ class Nivel:
         self.tiles_sand.draw(self.capa)
 
         #dibujar jugador
-        self.player_pirate.update()
-        self.player_pirate.draw(self.capa)
+        self.player.update()
+        self.player.draw(self.capa)
