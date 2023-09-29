@@ -57,8 +57,8 @@ class Nivel:
                     tile= Tile((x,y),tamaño_recuadro, "green")
                     self.tiles_treasure.add(tile)
                 elif column=="J":
-                    player= Pirata((x,y))
-                    self.player_pirate.add(player)
+                    self.player= Pirata((x,y))
+                    self.player_pirate.add(self.player)
                 if column=="J" or column==" ":
                     tile= Tile((x,y),tamaño_recuadro, "yellow")
                     self.tiles_sand.add(tile)
