@@ -13,6 +13,10 @@ Al iniciar una nueva partida, el pirata aparecerá en el mapa con el máximo de 
 
 Si el pirata pierde sus tres vidas, se activará el Game Over, mostrando su puntaje final, y permitiéndole al usuario volver a jugar, o volver al menú.
 
+## Diagramas:
+- Diagrama de casos de uso:
+
+![Casos de uso](out/diagramas/casos_de_uso/casos_de_uso.png)
 ## Colaboradores del proyecto:
 + Samuel Casas Cantor / 20231020038.
 + Luis Felipe Mongui Dimate / 20231020039.

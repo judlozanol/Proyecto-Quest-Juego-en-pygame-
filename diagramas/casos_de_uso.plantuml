@@ -1,0 +1,32 @@
+@startuml
+left to right direction
+actor usuario as g
+package Quest{
+    package Menu{
+        usecase "Jugar" as UC1
+        usecase "Consultar Controles" as UC2
+        usecase "Salir" as UC3
+    }
+    package Jugando{
+        usecase "Mover Pirata" as PC1
+        usecase "Cavar" as PC2
+        usecase "Agarrar Potenciador" as PC3
+        usecase "Perder Vida" as PC4
+        usecase "Ver Puntuación" as PC5
+        usecase "Ver Brújula" as PC6 
+        usecase "Perder Partida" as PC7
+    }
+    
+}
+g -- UC1
+g -- UC2
+g -- UC3
+UC1 <|-- PC1
+UC1 <|-- PC2
+UC1 <|-- PC3
+UC1 <|-- PC4
+UC1 <|-- PC5
+UC1 <|-- PC6
+PC4 <|-- PC7 
+
+@enduml
