@@ -1,0 +1,78 @@
+@startuml
+left to right direction
+Escenario <|-- Menu
+Escenario <|-- Interfaz_Juego
+Escenario <|-- GameOver
+
+Juego *-- "1" Escenario:contiene
+class Menu{
+
+}
+class Boton{
+    Color : str
+    Texto : str
+    Posicion : xy
+    Capa
+    Funcion()
+    Draw()
+}
+Menu "1" *-- "1" BotonJugar:"contiene" 
+Menu "1" *-- "1" BotonControl:"contiene" 
+Menu "1" *-- "1" BotonSalir:"contiene" 
+BotonJugar --|> Boton
+BotonControl --|> Boton
+BotonSalir --|> Boton
+
+Class Interfaz_Juego{
+
+}
+Class Nivel{
+    Calcular_distrancia_brujula()
+}
+Interfaz_Juego *-- Nivel
+Nivel *-- Pirata 
+Class Pirata{
+    Sprite
+    Estado
+
+    mover_pirata()
+    cavar()
+    dar_posicion()
+    actualizar_sprite()
+    actualizar()
+
+}
+Nivel "1" *-- "60" Suelo:"contiene"
+Class Suelo{
+    Sprite 
+    Objeto : None
+    Tamaño 
+    Estado : Cavado o no
+    Actualizar_estado()
+    Actualizar_Sprite()
+    Update()
+    Desenterrar_objeto()
+}
+Suelo <|-- SueloBomba
+Suelo <|-- SueloTesoro
+Suelo <|-- SueloPotenciador
+
+SueloBomba : Objeto : Bomba
+SueloTesoro : Objeto : Tesoro
+SueloPotenciador : Objeto : Potenciador 
+
+Class Objeto{
+    Sprite
+    Interaccion_Jugador()
+    animcacion_salir()
+}
+Bomba --|> Objeto
+Potenciador --|> Objeto
+Tesoro --|> Objeto
+
+SueloBomba "1" *-- "1" Bomba:"contiene"
+SueloPotenciador "1" *-- "1" Potenciador:"contiene"
+SueloTesoro "1" *-- "1" Tesoro:"contiene"
+
+
+@enduml
