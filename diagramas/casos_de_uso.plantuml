@@ -1,32 +1,69 @@
 @startuml
 left to right direction
-actor usuario as g
+actor Usuario as Usuario
 package Quest{
     package Menu{
-        usecase "Jugar" as UC1
-        usecase "Consultar Controles" as UC2
-        usecase "Salir" as UC3
+        usecase "Jugar" as Jugar
+        usecase "Consultar Controles" as Controles
+        usecase "Salir" as Salir
     }
     package Jugando{
-        usecase "Mover Pirata" as PC1
-        usecase "Cavar" as PC2
-        usecase "Agarrar Potenciador" as PC3
-        usecase "Perder Vida" as PC4
-        usecase "Ver Puntuación" as PC5
-        usecase "Ver Brújula" as PC6 
-        usecase "Perder Partida" as PC7
-    }
-    
-}
-g -- UC1
-g -- UC2
-g -- UC3
-UC1 <|-- PC1
-UC1 <|-- PC2
-UC1 <|-- PC3
-UC1 <|-- PC4
-UC1 <|-- PC5
-UC1 <|-- PC6
-PC4 <|-- PC7 
+        actor Pirata as Pirata
+        package Ronda{
+            usecase "Mover Pirata" as MoverPirata
+            usecase "Desenterrar" as Desenterrar
+            usecase "Agarrar Potenciador" as AgarrarPotenciador
+            usecase "Perder Vida" as PerderVida
+            usecase "Pasar ronda" as PasarRonda
+            usecase "Saber distancia a objeto más cercano" as SaberDistancia
+            
+            usecase "Desenterrar trampa" as DTrampa
+            usecase "Desenterrar tesoro" as DTesoro
+            usecase "Desenterrar Nada" as DNada
+            usecase "Desenterrar Potenciador" as DPotenciador
 
+        }
+        usecase "Controlar Pirata" as Controlar
+        usecase "Ver interfaz" as VInterfaz
+        package Interfaz{
+            package Puntuación{
+                usecase "Ver Puntuación" as VPuntuacion
+                usecase "Modificar Puntuación" as MPuntuacion
+                }
+            usecase "Ver Brújula" as VBrujula 
+            usecase "Ver Corazones" as VCorazon
+        }
+        package Game_over{
+            usecase "Volver al Menu" as VolverMenu
+            usecase "Retry" as Retry
+
+        }
+    }
+}
+Usuario -- Jugar
+Usuario -- Controles
+Usuario -- Salir
+Jugar <|-- Controlar
+Jugar <|-- VInterfaz
+Desenterrar <|-- DTrampa
+Desenterrar <|-- DTesoro
+Desenterrar <|-- DNada
+Desenterrar <|-- DPotenciador
+DTrampa -- PerderVida
+DTesoro -- PasarRonda
+DPotenciador -- AgarrarPotenciador
+Controlar <|-- Pirata
+Pirata -- MoverPirata
+Pirata -- Desenterrar
+MPuntuacion <-- AgarrarPotenciador
+MPuntuacion <-- PerderVida
+MPuntuacion <-- PasarRonda
+Pirata -- SaberDistancia
+VCorazon -- Pirata
+VInterfaz <|-- VCorazon
+VInterfaz <|-- VBrujula
+VInterfaz <|-- VPuntuacion
+VBrujula <|-- SaberDistancia
+Menu <-- VolverMenu
+Jugar <-- Retry
 @enduml
