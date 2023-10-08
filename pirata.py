@@ -16,11 +16,11 @@ class Pirata(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft=pos)
         self.direction= pygame.math.Vector2(0,0)
 
-    def animar(self):
+    def animar(self): #minimo dos frames por estado
         if self.estado.currentState=='caminando':
             self.animaciones=[pygame.transform.scale(pygame.image.load("sprites/pirata/movimiento/caminando1.png").convert_alpha(),(75, 75)), pygame.transform.scale(pygame.image.load("sprites/pirata/movimiento/caminando2.png").convert_alpha(),(75, 75))]
         elif self.estado.currentState=='idle':
-            self.animaciones=[pygame.transform.scale(pygame.image.load("sprites/pirata/idle/idle1.png").convert_alpha(),(75,75))]
+            self.animaciones=[pygame.transform.scale(pygame.image.load("sprites/pirata/idle/idle1.png").convert_alpha(),(75,75)),pygame.transform.scale(pygame.image.load("sprites/pirata/idle/idle1.png").convert_alpha(),(75,75))]
         elif self.estado.currentState=='cavando':
             self.animaciones=[pygame.transform.scale(pygame.image.load("sprites/pirata/movimiento/caminando3.png").convert_alpha(),(40,40)), pygame.transform.scale(pygame.image.load("sprites/pirata/movimiento/caminando4.png").convert_alpha(),(40,40))]
         if self.flip:
