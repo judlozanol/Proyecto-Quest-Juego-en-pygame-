@@ -1,9 +1,13 @@
 import pygame
 from ajustes import *
 from stateM import StateM
+from utilidades import imagen_redimensionada
 class Pirata(pygame.sprite.Sprite):
     def __init__(self,pos):
         super().__init__()
+
+        self.anchoSprite=75
+        self.altoSprite=75
         self.cavando=False
         self.flip=False
         self.rapidez=8
@@ -18,11 +22,11 @@ class Pirata(pygame.sprite.Sprite):
 
     def animar(self): #minimo dos frames por estado
         if self.estado.currentState=='caminando':
-            self.animaciones=[pygame.transform.scale(pygame.image.load("sprites/pirata/movimiento/caminando1.png").convert_alpha(),(75, 75)), pygame.transform.scale(pygame.image.load("sprites/pirata/movimiento/caminando2.png").convert_alpha(),(75, 75))]
+            self.animaciones=[imagen_redimensionada("sprites/pirata/movimiento/caminando1.png",self.anchoSprite,self.altoSprite), imagen_redimensionada("sprites/pirata/movimiento/caminando2.png",self.anchoSprite,self.altoSprite)]
         elif self.estado.currentState=='idle':
-            self.animaciones=[pygame.transform.scale(pygame.image.load("sprites/pirata/idle/idle1.png").convert_alpha(),(75,75)),pygame.transform.scale(pygame.image.load("sprites/pirata/idle/idle1.png").convert_alpha(),(75,75))]
+            self.animaciones=[imagen_redimensionada("sprites/pirata/idle/idle1.png",self.anchoSprite,self.altoSprite),imagen_redimensionada("sprites/pirata/idle/idle1.png",self.anchoSprite,self.altoSprite)]
         elif self.estado.currentState=='cavando':
-            self.animaciones=[pygame.transform.scale(pygame.image.load("sprites/pirata/movimiento/caminando3.png").convert_alpha(),(40,40)), pygame.transform.scale(pygame.image.load("sprites/pirata/movimiento/caminando4.png").convert_alpha(),(40,40))]
+            self.animaciones=[imagen_redimensionada("sprites/pirata/idle/idle1.png",self.anchoSprite,self.altoSprite),imagen_redimensionada("sprites/pirata/idle/idle1.png",self.anchoSprite,self.altoSprite)]
         if self.flip:
             self.image=pygame.transform.flip((self.animaciones[int(self.numSprite)]),True,False)
         else:

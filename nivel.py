@@ -56,12 +56,12 @@ class Nivel:
                 elif column=="T":
                     tile= Tile((x,y),tamaño_recuadro, "green")
                     self.tiles_treasure.add(tile)
-                elif column=="J":
-                    player= Pirata((x,y))
-                    self.player.add(player)
-                if column=="J" or column==" ":
+                elif column=="J" or column==" ":
                     tile= Tile((x,y),tamaño_recuadro, "yellow")
                     self.tiles_sand.add(tile)
+                if column=="J":
+                    player= Pirata((x,y))
+                    self.player.add(player)
     def run(self):
         #dibujar mapa
         self.tiles_bomb.draw(self.capa)
