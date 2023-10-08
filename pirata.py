@@ -7,6 +7,7 @@ class Pirata(pygame.sprite.Sprite):
         self.cavando=False
         self.flip=False
         self.rapidez=8
+        self.velocidad_animacion=0.1 #un numero mayor a cero y menor a uno
 
         self.estado= StateM('idle')
         self.animaciones=[]
@@ -68,7 +69,7 @@ class Pirata(pygame.sprite.Sprite):
         elif self.rect.top > alto_pantalla:
             self.rect.bottom = 0
 
-        self.numSprite+=0.2
+        self.numSprite+= self.velocidad_animacion
         if self.numSprite>=len(self.animaciones):
             self.numSprite=0
         self.animar()
