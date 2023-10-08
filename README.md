@@ -23,4 +23,4 @@ Si el pirata pierde sus tres vidas, se activará el Game Over, mostrando su punt
 + Juan Diego Lozano Luna /20231020040.
 
 ## Algunos sprites tomados de:
-    +
+    + https://gvituri.itch.io/ghost-ship
