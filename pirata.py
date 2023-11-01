@@ -64,12 +64,12 @@ class Pirata(pygame.sprite.Sprite):
         self.rect.y+= self.direction.y*self.rapidez
 
         if self.rect.right < 0:
-            self.rect.left = ancho_pantalla
-        elif self.rect.left > ancho_pantalla:
+            self.rect.left = ANCHO_PANTALLA
+        elif self.rect.left > ANCHO_PANTALLA:
             self.rect.right = 0
         if self.rect.bottom < 0:
-            self.rect.top = alto_pantalla
-        elif self.rect.top > alto_pantalla:
+            self.rect.top = ANCHO_PANTALLA
+        elif self.rect.top > ANCHO_PANTALLA:
             self.rect.bottom = 0
 
         self.numSprite+= self.velocidad_animacion

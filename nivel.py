@@ -1,8 +1,8 @@
 import pygame
-from tiles import Tile
 from random import randint
-from ajustes import tamaño_recuadro
+from ajustes import TAMANO_RECUADRO
 from pirata import Pirata
+from suelo import *
 class Nivel:
     def __init__(self,bombas, potenciador, capa):
         self.estructura=["          ",
@@ -45,19 +45,19 @@ class Nivel:
         self.tiles_sand=pygame.sprite.Group()
         for row_index,row in enumerate(self.estructura):
             for column_index,column in enumerate(row):
-                x= column_index * tamaño_recuadro
-                y= row_index * tamaño_recuadro
+                x= column_index * TAMANO_RECUADRO
+                y= row_index * TAMANO_RECUADRO
                 if column=="B":
-                    tile= Tile((x,y),tamaño_recuadro, "red")
+                    tile= SueloBomba((x,y))
                     self.tiles_bomb.add(tile)
                 elif column=="P":
-                    tile= Tile((x,y),tamaño_recuadro, "dark green")
+                    tile= SueloPotenciador((x,y))
                     self.tiles_booster.add(tile)
                 elif column=="T":
-                    tile= Tile((x,y),tamaño_recuadro, "green")
+                    tile= SueloTesoro((x,y))
                     self.tiles_treasure.add(tile)
                 elif column=="J" or column==" ":
-                    tile= Tile((x,y),tamaño_recuadro, "yellow")
+                    tile= Suelo((x,y))
                     self.tiles_sand.add(tile)
                 if column=="J":
                     player= Pirata((x,y))

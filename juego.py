@@ -4,7 +4,7 @@ from nivel import Nivel
 class Juego:
     def __init__(self):
         pygame.init()
-        self.pantalla= pygame.display.set_mode((ajustes.ancho_pantalla, ajustes.alto_pantalla))
+        self.pantalla= pygame.display.set_mode((ajustes.ANCHO_PANTALLA, ajustes.ALTO_PANTALLA))
         self.clock = pygame.time.Clock()
         self.activo=True
         self.nivel= Nivel(1,1, self.pantalla)
@@ -18,4 +18,4 @@ class Juego:
             self.nivel.run()
 
             pygame.display.update()
-            self.clock.tick(ajustes.fps)
+            self.clock.tick(ajustes.FPS)

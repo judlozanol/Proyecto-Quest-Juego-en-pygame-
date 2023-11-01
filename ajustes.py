@@ -1,5 +1,5 @@
-tamaño_recuadro = 100
-ancho_pantalla = 10*tamaño_recuadro
-alto_pantalla = 6*tamaño_recuadro
-fuente=""
-fps=60
+TAMANO_RECUADRO = 100
+ANCHO_PANTALLA = 10*TAMANO_RECUADRO
+ALTO_PANTALLA = 6*TAMANO_RECUADRO
+FUENTE=""
+FPS=60
