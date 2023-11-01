@@ -6,11 +6,11 @@ class Pirata(pygame.sprite.Sprite):
     def __init__(self,pos):
         super().__init__()
 
-        self.anchoSprite=75
-        self.altoSprite=75
+        self.anchoSprite= (TAMANO_RECUADRO/4)*3
+        self.altoSprite=(TAMANO_RECUADRO/4)*3
         self.cavando=False
         self.flip=False
-        self.rapidez=8
+        self.rapidez=(TAMANO_RECUADRO/10)-((TAMANO_RECUADRO/100)*2)
         self.velocidad_animacion=0.1 #un numero mayor a cero y menor a uno
 
         self.estado= StateM('idle')
@@ -62,14 +62,14 @@ class Pirata(pygame.sprite.Sprite):
         self.get_input()
         self.rect.x+= self.direction.x*self.rapidez
         self.rect.y+= self.direction.y*self.rapidez
-
+        
         if self.rect.right < 0:
             self.rect.left = ANCHO_PANTALLA
         elif self.rect.left > ANCHO_PANTALLA:
             self.rect.right = 0
         if self.rect.bottom < 0:
-            self.rect.top = ANCHO_PANTALLA
-        elif self.rect.top > ANCHO_PANTALLA:
+            self.rect.top = ALTO_PANTALLA
+        elif self.rect.top > ALTO_PANTALLA:
             self.rect.bottom = 0
 
         self.numSprite+= self.velocidad_animacion
