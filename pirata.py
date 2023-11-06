@@ -38,25 +38,33 @@ class Pirata(pygame.sprite.Sprite):
         if teclas[pygame.K_RIGHT]:
             self.direction.x = 1
             self.flip=False
+            self.cavando=False
         elif teclas[pygame.K_LEFT]:
             self.direction.x = -1
             self.flip=True
+            self.cavando=False
         else:
             self.direction.x = 0
 
         if teclas[pygame.K_UP]:
             self.direction.y = -1
+            self.cavando=False
         elif teclas[pygame.K_DOWN]:
             self.direction.y = 1
+            self.cavando=False
         else:
             self.direction.y = 0
         
+        if teclas[pygame.K_SPACE]:
+            self.cavando=True
+
         if self.cavando:
             self.estado.set_status('cavando')
         elif self.direction.x==0 and self.direction.y==0:
             self.estado.set_status('idle')
         else:
             self.estado.set_status('caminando')
+            
 
     def update(self):
         self.get_input()

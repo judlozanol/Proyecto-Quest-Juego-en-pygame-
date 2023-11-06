@@ -43,32 +43,47 @@ class Nivel:
         self.tiles_treasure = pygame.sprite.GroupSingle()
         self.player = pygame.sprite.GroupSingle()
         self.tiles_sand=pygame.sprite.Group()
+
+        self.suelos=pygame.sprite.Group()
         for row_index,row in enumerate(self.estructura):
             for column_index,column in enumerate(row):
                 x= column_index * TAMANO_RECUADRO
                 y= row_index * TAMANO_RECUADRO
                 if column=="B":
-                    tile= SueloBomba((x,y))
+                    tile= SueloBomba((x,y), self.capa)
                     self.tiles_bomb.add(tile)
+                    self.suelos.add(tile)
                 elif column=="P":
-                    tile= SueloPotenciador((x,y))
+                    tile= SueloPotenciador((x,y), self.capa)
                     self.tiles_booster.add(tile)
+                    self.suelos.add(tile)
                 elif column=="T":
-                    tile= SueloTesoro((x,y))
+                    tile= SueloTesoro((x,y), self.capa)
                     self.tiles_treasure.add(tile)
+                    self.suelos.add(tile)
                 elif column=="J" or column==" ":
-                    tile= Suelo((x,y))
+                    tile= Suelo((x,y), self.capa)
                     self.tiles_sand.add(tile)
+                    self.suelos.add(tile)
                 if column=="J":
                     player= Pirata((x,y))
                     self.player.add(player)
+    def validar_colisiones(self):
+        if self.player.sprite.estado.get_status()=="cavando":
+            for suelo in self.suelos:    
+                if self.player.sprite.rect.colliderect(suelo.rect):
+                    suelo.desenterrar()
     def run(self):
         #dibujar mapa
+        self.suelos.update()
         self.tiles_bomb.draw(self.capa)
         self.tiles_booster.draw(self.capa)
         self.tiles_treasure.draw(self.capa)
         self.tiles_sand.draw(self.capa)
+        
 
         #dibujar jugador
         self.player.update()
         self.player.draw(self.capa)
+
+        self.validar_colisiones()
