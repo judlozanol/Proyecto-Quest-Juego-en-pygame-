@@ -13,10 +13,11 @@ class Objeto(pygame.sprite.Sprite):
         self.direction= pygame.math.Vector2(0,-1)
         
     def desenterrar(self):
-        if self.rect.y<=self.posInicialY-TAMANO_RECUADRO:
+        if self.rect.centery<=self.posInicialY-TAMANO_RECUADRO:
             self.direction.y=1
-        if self.rect.y>=self.posInicialY+1:
+        if self.rect.centery>=self.posInicialY and self.direction.y==1:
             self.direction.y=0
+            
             
     def update(self):
         self.rect.x+= self.direction.x*self.rapidez
