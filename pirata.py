@@ -58,7 +58,7 @@ class Pirata(pygame.sprite.Sprite):
                 self.direction.x = 0
                 self.cavando=True
         else:
-            if int(self.numSprite)>len(self.animaciones)-1:
+            if int(self.numSprite)==len(self.animaciones)-1:
                 self.cavando=False
         
     "cambiara el conjunto de animaciones del pirata solo si este ha cambiado de estado"
@@ -88,7 +88,7 @@ class Pirata(pygame.sprite.Sprite):
         self.get_input()
         self.analizar_estado()
         self.animar()
-        print(self.estado.get_status(),self.preEstado.get_status())
+        
         self.rect.x+= self.direction.x*self.rapidez
         self.rect.y+= self.direction.y*self.rapidez
         
