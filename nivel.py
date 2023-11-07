@@ -37,6 +37,7 @@ class Nivel:
         self.ubicar_elemento(self.potenciador,"P")
         self.ubicar_elemento(self.tesoro,"T")
         self.ubicar_elemento(self.jugador,"J")
+
     def ubicar_nivel(self):
         self.tiles_bomb = pygame.sprite.Group()
         self.tiles_booster = pygame.sprite.Group()
@@ -68,22 +69,25 @@ class Nivel:
                 if column=="J":
                     player= Pirata((x,y))
                     self.player.add(player)
+
     def validar_colisiones(self):
         if self.player.sprite.estado.get_status()=="cavando":
             for suelo in self.suelos:    
                 if self.player.sprite.rect.colliderect(suelo.rect):
                     suelo.desenterrar()
+        
     def run(self):
         #dibujar mapa
-        self.suelos.update()
+        
         self.tiles_bomb.draw(self.capa)
         self.tiles_booster.draw(self.capa)
         self.tiles_treasure.draw(self.capa)
         self.tiles_sand.draw(self.capa)
-        
+        self.suelos.update()
 
         #dibujar jugador
         self.player.update()
         self.player.draw(self.capa)
 
         self.validar_colisiones()
+        
