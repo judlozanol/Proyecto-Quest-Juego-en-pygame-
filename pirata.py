@@ -15,8 +15,7 @@ class Pirata(pygame.sprite.Sprite):
 
         self.estado= StateM('idle')
         self.preEstado = StateM('idle')
-
-        
+  
         self.numSprite=0
         self.animar()
 
@@ -99,6 +98,4 @@ class Pirata(pygame.sprite.Sprite):
         if self.rect.bottom < 0:
             self.rect.top = ALTO_PANTALLA
         elif self.rect.top > ALTO_PANTALLA:
-            self.rect.bottom = 0
-
-        
+            self.rect.bottom = 0  
