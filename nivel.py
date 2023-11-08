@@ -3,6 +3,7 @@ from random import randint
 from ajustes import TAMANO_RECUADRO
 from pirata import Pirata
 from suelo import *
+from brujula import Brujula
 class Nivel:
     def __init__(self,bombas, potenciador, capa):
         self.estructura=["          ",
@@ -18,6 +19,8 @@ class Nivel:
         self.potenciador=potenciador
         self.generar_nivel()
         self.ubicar_nivel()
+
+
     def ubicar_elemento(self,elemento,letra:type[str]):
         while elemento>0:
             row_c=randint(0, len(self.estructura)-1)
@@ -46,6 +49,7 @@ class Nivel:
         self.tiles_sand=pygame.sprite.Group()
 
         self.suelos=pygame.sprite.Group()
+        self.sueloInter=pygame.sprite.Group()
         for row_index,row in enumerate(self.estructura):
             for column_index,column in enumerate(row):
                 x= column_index * TAMANO_RECUADRO
@@ -54,14 +58,17 @@ class Nivel:
                     tile= SueloBomba((x,y), self.capa)
                     self.tiles_bomb.add(tile)
                     self.suelos.add(tile)
+                    self.sueloInter.add(tile)
                 elif column=="P":
                     tile= SueloPotenciador((x,y), self.capa)
                     self.tiles_booster.add(tile)
                     self.suelos.add(tile)
+                    self.sueloInter.add(tile)
                 elif column=="T":
                     tile= SueloTesoro((x,y), self.capa)
                     self.tiles_treasure.add(tile)
                     self.suelos.add(tile)
+                    self.sueloInter.add(tile)
                 elif column=="J" or column==" ":
                     tile= Suelo((x,y), self.capa)
                     self.tiles_sand.add(tile)
@@ -75,6 +82,8 @@ class Nivel:
             for suelo in self.suelos:    
                 if self.player.sprite.rect.colliderect(suelo.rect):
                     suelo.desenterrar()
+                    if self.sueloInter.has(suelo):
+                        self.sueloInter.remove(suelo)
         
     def run(self):
         #dibujar mapa
@@ -85,6 +94,13 @@ class Nivel:
         self.tiles_sand.draw(self.capa)
         self.suelos.update()
 
+        brujula=Brujula(self.player, self.sueloInter,(0,0))
+        self.brujulas=pygame.sprite.GroupSingle()
+        self.brujulas.add(brujula)
+
+        self.brujulas.update()
+        self.brujulas.draw(self.capa)
+        
         #dibujar jugador
         self.player.update()
         self.player.draw(self.capa)
