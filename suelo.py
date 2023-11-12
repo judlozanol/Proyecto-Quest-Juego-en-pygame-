@@ -19,6 +19,9 @@ class Suelo(pygame.sprite.Sprite):
             self.desenterrado=True
         
     def update(self):
+        if self.objetos.sprite:
+            if self.objetos.sprite.usado:
+                self.objetos.remove(self.objetos.sprite)
         self.objetos.update()
         self.objetos.draw(self.capa)
 

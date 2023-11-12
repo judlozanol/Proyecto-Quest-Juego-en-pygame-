@@ -1,9 +1,10 @@
 import pygame
 from ajustes import *
 from stateM import StateM
-from utilidades import imagen_redimensionada
+from utilidades import imagen_redimensionada, rotar_imagen_redimensionada
+from pirataStats import PirataStats
 class Pirata(pygame.sprite.Sprite):
-    def __init__(self,pos):
+    def __init__(self,pos,stats = False):
         super().__init__()
 
         self.anchoSprite= (TAMANO_RECUADRO/4)*3
@@ -12,6 +13,10 @@ class Pirata(pygame.sprite.Sprite):
         self.flip=False
         self.rapidez=(TAMANO_RECUADRO/10)-((TAMANO_RECUADRO/100)*2)
         self.velocidad_animacion=0.1 #un numero mayor a cero y menor a uno
+        if stats:
+            self.stats=stats
+        else:
+            self.stats=PirataStats()
 
         self.estado= StateM('idle')
         self.preEstado = StateM('idle')
@@ -21,14 +26,15 @@ class Pirata(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect(topleft=pos)
         
-
         #sera el encargado de la direccion de movimiento del pj
         self.direction= pygame.math.Vector2(0,0)
     
     """guarda el estado anterior y analiza el nuevo estado del pirata"""
     def analizar_estado(self):
         self.preEstado.set_status(self.estado.get_status())
-        if self.cavando:
+        if self.stats.vidas==0:
+            self.estado.set_status('muerto')
+        elif self.cavando:
             self.estado.set_status('cavando')
         else:
             if self.direction.x==0 and self.direction.y==0:
@@ -38,7 +44,7 @@ class Pirata(pygame.sprite.Sprite):
 
     """captura el teclado para las acciones del pirata"""
     def get_input(self):
-        if self.cavando==False:
+        if self.cavando==False and self.estado.get_status()!='muerto':
             teclas = pygame.key.get_pressed()
             if teclas[pygame.K_RIGHT]:
                 self.direction.x = 1
@@ -60,6 +66,7 @@ class Pirata(pygame.sprite.Sprite):
                 self.direction.y = 0
                 self.direction.x = 0
                 self.cavando=True
+        
         else:
             if int(self.numSprite)==len(self.animaciones)-1:
                 self.cavando=False
@@ -69,9 +76,11 @@ class Pirata(pygame.sprite.Sprite):
         if self.estado.currentState=='caminando':
             self.animaciones=[imagen_redimensionada("sprites/pirata/movimiento/caminando1.png",self.anchoSprite,self.altoSprite), imagen_redimensionada("sprites/pirata/movimiento/caminando2.png",self.anchoSprite,self.altoSprite)]
         elif self.estado.currentState=='idle':
-            self.animaciones=[imagen_redimensionada("sprites/pirata/idle/idle1.png",self.anchoSprite,self.altoSprite),imagen_redimensionada("sprites/pirata/idle/idle1.png",self.anchoSprite,self.altoSprite)]
+            self.animaciones=[imagen_redimensionada("sprites/pirata/idle/idle1.png",self.anchoSprite,self.altoSprite)]
         elif self.estado.currentState=='cavando':
             self.animaciones=[imagen_redimensionada("sprites/pirata/idle/idle1.png",self.anchoSprite,self.altoSprite),imagen_redimensionada("sprites/pirata/movimiento/caminando1.png",self.anchoSprite,self.altoSprite),imagen_redimensionada("sprites/pirata/movimiento/caminando1.png",self.anchoSprite,self.altoSprite),imagen_redimensionada("sprites/pirata/movimiento/caminando1.png",self.anchoSprite,self.altoSprite)]
+        elif self.estado.currentState=='muerto':
+            self.animaciones=[rotar_imagen_redimensionada(imagen_redimensionada("sprites/pirata/idle/idle1.png",self.anchoSprite,self.altoSprite),90)]
         
         if self.preEstado.get_status() != self.estado.get_status():
             self.numSprite=0
@@ -87,7 +96,7 @@ class Pirata(pygame.sprite.Sprite):
         self.numSprite+= self.velocidad_animacion
         if int(self.numSprite)>len(self.animaciones)-1:
             self.numSprite=0
-
+    
     def update(self):
         self.get_input()
         self.analizar_estado()
@@ -103,4 +112,4 @@ class Pirata(pygame.sprite.Sprite):
         if self.rect.bottom < 0:
             self.rect.top = ALTO_PANTALLA
         elif self.rect.top > ALTO_PANTALLA:
-            self.rect.bottom = 0  
+            self.rect.bottom = 0

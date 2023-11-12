@@ -6,7 +6,7 @@ from suelo import *
 from brujula import Brujula
 
 class Nivel:
-    def __init__(self,bombas, potenciador, capa):
+    def __init__(self,bombas, potenciador, capa, statsPirata=False):
         self.estructura=["          ",
                         "          ",
                         "          ",
@@ -18,6 +18,11 @@ class Nivel:
         self.jugador=1
         self.bombas=bombas
         self.potenciador=potenciador
+        if statsPirata:
+            self.statsPirata=statsPirata
+        else:
+            self.statsPirata=False
+
         self.generar_nivel()
         self.ubicar_nivel()
 
@@ -55,6 +60,7 @@ class Nivel:
 
         self.suelos=pygame.sprite.Group()
         self.sueloInter=pygame.sprite.Group()
+        self.sueloObj=pygame.sprite.Group()
         for row_index,row in enumerate(self.estructura):
             for column_index,column in enumerate(row):
                 x= column_index * TAMANO_RECUADRO
@@ -64,22 +70,25 @@ class Nivel:
                     self.tiles_bomb.add(tile)
                     self.suelos.add(tile)
                     self.sueloInter.add(tile)
+                    self.sueloObj.add(tile)
                 elif column=="P":
                     tile= SueloPotenciador((x,y), self.capa)
                     self.tiles_booster.add(tile)
                     self.suelos.add(tile)
                     self.sueloInter.add(tile)
+                    self.sueloObj.add(tile)
                 elif column=="T":
                     tile= SueloTesoro((x,y), self.capa)
                     self.tiles_treasure.add(tile)
                     self.suelos.add(tile)
                     self.sueloInter.add(tile)
+                    self.sueloObj.add(tile)
                 elif column=="J" or column==" ":
                     tile= Suelo((x,y), self.capa)
                     self.tiles_sand.add(tile)
                     self.suelos.add(tile)
                 if column=="J":
-                    player= Pirata((x,y))
+                    player= Pirata((x,y),self.statsPirata)
                     self.player.add(player)
 
     def validar_colisiones(self):
@@ -89,7 +98,12 @@ class Nivel:
                     suelo.desenterrar()
                     if self.sueloInter.has(suelo):
                         self.sueloInter.remove(suelo)
-        
+        for suelo in self.sueloObj:
+            if suelo.desenterrado:
+                if suelo.objetos.sprite.interactuable and suelo.objetos.sprite.rect.colliderect(self.player.sprite.rect):
+                    suelo.objetos.sprite.interaccion_jugador(self.player.sprite)
+                    self.sueloObj.remove(suelo)
+
     def run(self):
         #dibujar mapa
         self.tiles_bomb.draw(self.capa)
