@@ -20,9 +20,12 @@ class Pirata(pygame.sprite.Sprite):
         self.animar()
 
         self.rect = self.image.get_rect(topleft=pos)
+        
+
+        #sera el encargado de la direccion de movimiento del pj
         self.direction= pygame.math.Vector2(0,0)
     
-    "guarda el estado anterior y analiza el nuevo estado del pirata"
+    """guarda el estado anterior y analiza el nuevo estado del pirata"""
     def analizar_estado(self):
         self.preEstado.set_status(self.estado.get_status())
         if self.cavando:
@@ -32,7 +35,8 @@ class Pirata(pygame.sprite.Sprite):
                 self.estado.set_status('idle')
             else:
                 self.estado.set_status('caminando')
-    
+
+    """captura el teclado para las acciones del pirata"""
     def get_input(self):
         if self.cavando==False:
             teclas = pygame.key.get_pressed()
@@ -60,7 +64,7 @@ class Pirata(pygame.sprite.Sprite):
             if int(self.numSprite)==len(self.animaciones)-1:
                 self.cavando=False
         
-    "cambiara el conjunto de animaciones del pirata solo si este ha cambiado de estado"
+    """validara el conjunto de animaciones del pirata, el index solo lo cambiara si este ha cambiado de estado"""
     def cambiar_animaciones(self):
         if self.estado.currentState=='caminando':
             self.animaciones=[imagen_redimensionada("sprites/pirata/movimiento/caminando1.png",self.anchoSprite,self.altoSprite), imagen_redimensionada("sprites/pirata/movimiento/caminando2.png",self.anchoSprite,self.altoSprite)]
@@ -71,7 +75,8 @@ class Pirata(pygame.sprite.Sprite):
         
         if self.preEstado.get_status() != self.estado.get_status():
             self.numSprite=0
-                 
+
+    """aplica el conjunto de animaciones al pj"""
     def animar(self):
         self.cambiar_animaciones()
         if self.flip:

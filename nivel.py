@@ -4,6 +4,7 @@ from ajustes import TAMANO_RECUADRO
 from pirata import Pirata
 from suelo import *
 from brujula import Brujula
+
 class Nivel:
     def __init__(self,bombas, potenciador, capa):
         self.estructura=["          ",
@@ -20,6 +21,9 @@ class Nivel:
         self.generar_nivel()
         self.ubicar_nivel()
 
+        brujula=Brujula((0,0))
+        self.brujulas=pygame.sprite.GroupSingle()
+        self.brujulas.add(brujula)
 
     def ubicar_elemento(self,elemento,letra:type[str]):
         while elemento>0:
@@ -35,6 +39,7 @@ class Nivel:
                         nueva_linea=nueva_linea+agregar
                     self.estructura[row_index]=nueva_linea
                     elemento-=1
+
     def generar_nivel(self):
         self.ubicar_elemento(self.bombas,"B")
         self.ubicar_elemento(self.potenciador,"P")
@@ -80,24 +85,21 @@ class Nivel:
     def validar_colisiones(self):
         if self.player.sprite.estado.get_status()=="cavando":
             for suelo in self.suelos:    
-                if self.player.sprite.rect.colliderect(suelo.rect):
+                if suelo.rect.collidepoint(self.player.sprite.rect.bottomleft) or suelo.rect.collidepoint(self.player.sprite.rect.bottomright) :
                     suelo.desenterrar()
                     if self.sueloInter.has(suelo):
                         self.sueloInter.remove(suelo)
         
     def run(self):
         #dibujar mapa
-        
         self.tiles_bomb.draw(self.capa)
         self.tiles_booster.draw(self.capa)
         self.tiles_treasure.draw(self.capa)
         self.tiles_sand.draw(self.capa)
         self.suelos.update()
 
-        brujula=Brujula(self.player, self.sueloInter,(0,0))
-        self.brujulas=pygame.sprite.GroupSingle()
-        self.brujulas.add(brujula)
-
+        #actualiza la brujula
+        self.brujulas.sprite.objeto_mas_cercano(self.player,self.sueloInter)
         self.brujulas.update()
         self.brujulas.draw(self.capa)
         

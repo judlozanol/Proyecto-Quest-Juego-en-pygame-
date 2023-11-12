@@ -18,7 +18,6 @@ class Objeto(pygame.sprite.Sprite):
         if self.rect.centery>=self.posInicialY and self.direction.y==1:
             self.direction.y=0
             
-            
     def update(self):
         self.rect.x+= self.direction.x*self.rapidez
         self.rect.y+= self.direction.y*self.rapidez
