@@ -30,6 +30,8 @@ class Nivel:
         self.brujulas=pygame.sprite.GroupSingle()
         self.brujulas.add(brujula)
 
+        self.terminado=False
+
     def ubicar_elemento(self,elemento,letra:type[str]):
         while elemento>0:
             row_c=randint(0, len(self.estructura)-1)
@@ -56,6 +58,7 @@ class Nivel:
         self.tiles_booster = pygame.sprite.Group()
         self.tiles_treasure = pygame.sprite.GroupSingle()
         self.player = pygame.sprite.GroupSingle()
+        #self.objJugador = pygame.sprite.GroupSingle()
         self.tiles_sand=pygame.sprite.Group()
 
         self.suelos=pygame.sprite.Group()
@@ -101,6 +104,8 @@ class Nivel:
         for suelo in self.sueloObj:
             if suelo.desenterrado:
                 if suelo.objetos.sprite.interactuable and suelo.objetos.sprite.rect.colliderect(self.player.sprite.rect):
+                    if type(suelo.objetos.sprite).__name__=="Tesoro":
+                        self.terminado=True
                     suelo.objetos.sprite.interaccion_jugador(self.player.sprite)
                     self.sueloObj.remove(suelo)
 
@@ -115,6 +120,8 @@ class Nivel:
         #dibujar jugador
         self.player.update()
         self.player.draw(self.capa)
+
+        #self.objJugador.draw(self.capa)
         
         #actualiza la brujula
         self.brujulas.sprite.objeto_mas_cercano(self.player,self.sueloBruj)

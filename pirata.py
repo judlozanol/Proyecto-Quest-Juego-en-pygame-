@@ -10,7 +10,8 @@ class Pirata(pygame.sprite.Sprite):
         self.cavando=False
         self.flip=False
         self.escudo=False
-
+        self.objMano=False
+        
         self.estado= StateM('idle')
         self.preEstado = StateM('idle')
 
@@ -34,10 +35,12 @@ class Pirata(pygame.sprite.Sprite):
         else:
             self.stats=PirataStats()
 
+    def get_stats(self):
+        return self.stats
     """guarda el estado anterior y analiza el nuevo estado del pirata"""
     def analizar_estado(self):
         self.preEstado.set_status(self.estado.get_status())
-        if self.stats.vidas==0:
+        if self.stats.vidas<=0:
             self.estado.set_status('muerto')
             self.direction.x=0
             self.direction.y=0
@@ -115,9 +118,9 @@ class Pirata(pygame.sprite.Sprite):
             self.rect.left = ANCHO_PANTALLA
         elif self.rect.left > ANCHO_PANTALLA:
             self.rect.right = 0
-        if self.rect.bottom < 0:
-            self.rect.top = ALTO_PANTALLA
-        elif self.rect.top > ALTO_PANTALLA:
-            self.rect.bottom = 0
+        if self.rect.top < 2:
+            self.rect.top = 2
+        elif self.rect.bottom > ALTO_PANTALLA-2:
+            self.rect.bottom = ALTO_PANTALLA-2
 
         print(self.stats.vidas,self.stats.puntaje,self.escudo)
