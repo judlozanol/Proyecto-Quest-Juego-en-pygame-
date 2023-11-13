@@ -46,11 +46,11 @@ class Nivel:
                     elemento-=1
 
     def generar_nivel(self):
+        self.ubicar_elemento(self.jugador,"J")
+        self.ubicar_elemento(self.tesoro,"T")
         self.ubicar_elemento(self.bombas,"B")
         self.ubicar_elemento(self.potenciador,"P")
-        self.ubicar_elemento(self.tesoro,"T")
-        self.ubicar_elemento(self.jugador,"J")
-
+        
     def ubicar_nivel(self):
         self.tiles_bomb = pygame.sprite.Group()
         self.tiles_booster = pygame.sprite.Group()
@@ -59,7 +59,7 @@ class Nivel:
         self.tiles_sand=pygame.sprite.Group()
 
         self.suelos=pygame.sprite.Group()
-        self.sueloInter=pygame.sprite.Group()
+        self.sueloBruj=pygame.sprite.Group()
         self.sueloObj=pygame.sprite.Group()
         for row_index,row in enumerate(self.estructura):
             for column_index,column in enumerate(row):
@@ -69,19 +69,19 @@ class Nivel:
                     tile= SueloBomba((x,y), self.capa)
                     self.tiles_bomb.add(tile)
                     self.suelos.add(tile)
-                    self.sueloInter.add(tile)
+                    self.sueloBruj.add(tile)
                     self.sueloObj.add(tile)
                 elif column=="P":
                     tile= SueloPotenciador((x,y), self.capa)
                     self.tiles_booster.add(tile)
                     self.suelos.add(tile)
-                    self.sueloInter.add(tile)
+                    self.sueloBruj.add(tile)
                     self.sueloObj.add(tile)
                 elif column=="T":
                     tile= SueloTesoro((x,y), self.capa)
                     self.tiles_treasure.add(tile)
                     self.suelos.add(tile)
-                    self.sueloInter.add(tile)
+                    self.sueloBruj.add(tile)
                     self.sueloObj.add(tile)
                 elif column=="J" or column==" ":
                     tile= Suelo((x,y), self.capa)
@@ -96,8 +96,8 @@ class Nivel:
             for suelo in self.suelos:    
                 if suelo.rect.collidepoint(self.player.sprite.rect.bottomleft) or suelo.rect.collidepoint(self.player.sprite.rect.bottomright) :
                     suelo.desenterrar()
-                    if self.sueloInter.has(suelo):
-                        self.sueloInter.remove(suelo)
+                    if self.sueloBruj.has(suelo):
+                        self.sueloBruj.remove(suelo)
         for suelo in self.sueloObj:
             if suelo.desenterrado:
                 if suelo.objetos.sprite.interactuable and suelo.objetos.sprite.rect.colliderect(self.player.sprite.rect):
@@ -112,14 +112,14 @@ class Nivel:
         self.tiles_sand.draw(self.capa)
         self.suelos.update()
 
-        #actualiza la brujula
-        self.brujulas.sprite.objeto_mas_cercano(self.player,self.sueloInter)
-        self.brujulas.update()
-        self.brujulas.draw(self.capa)
-        
         #dibujar jugador
         self.player.update()
         self.player.draw(self.capa)
+        
+        #actualiza la brujula
+        self.brujulas.sprite.objeto_mas_cercano(self.player,self.sueloBruj)
+        self.brujulas.update()
+        self.brujulas.draw(self.capa)
 
         self.validar_colisiones()
         

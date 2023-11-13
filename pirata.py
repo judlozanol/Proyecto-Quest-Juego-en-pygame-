@@ -7,33 +7,40 @@ class Pirata(pygame.sprite.Sprite):
     def __init__(self,pos,stats = False):
         super().__init__()
 
-        self.anchoSprite= (TAMANO_RECUADRO/4)*3
-        self.altoSprite=(TAMANO_RECUADRO/4)*3
         self.cavando=False
         self.flip=False
+        self.escudo=False
+
+        self.estado= StateM('idle')
+        self.preEstado = StateM('idle')
+
         self.rapidez=(TAMANO_RECUADRO/10)-((TAMANO_RECUADRO/100)*2)
-        self.velocidad_animacion=0.1 #un numero mayor a cero y menor a uno
+        self.velocidad_animacion=0.3 #un numero mayor a cero y menor a uno
+
+        #sera el encargado de la direccion de movimiento del pj
+        self.direction= pygame.math.Vector2(0,0)
+
+        self.anchoSprite= (TAMANO_RECUADRO/4)*3
+        self.altoSprite=(TAMANO_RECUADRO/4)*3
+
+        self.numSprite=0
+        self.animar()
+        self.rect = self.image.get_rect(topleft=pos)
+        
+        self.objeto=pygame.sprite.GroupSingle()
+
         if stats:
             self.stats=stats
         else:
             self.stats=PirataStats()
 
-        self.estado= StateM('idle')
-        self.preEstado = StateM('idle')
-  
-        self.numSprite=0
-        self.animar()
-
-        self.rect = self.image.get_rect(topleft=pos)
-        
-        #sera el encargado de la direccion de movimiento del pj
-        self.direction= pygame.math.Vector2(0,0)
-    
     """guarda el estado anterior y analiza el nuevo estado del pirata"""
     def analizar_estado(self):
         self.preEstado.set_status(self.estado.get_status())
         if self.stats.vidas==0:
             self.estado.set_status('muerto')
+            self.direction.x=0
+            self.direction.y=0
         elif self.cavando:
             self.estado.set_status('cavando')
         else:
@@ -66,7 +73,6 @@ class Pirata(pygame.sprite.Sprite):
                 self.direction.y = 0
                 self.direction.x = 0
                 self.cavando=True
-        
         else:
             if int(self.numSprite)==len(self.animaciones)-1:
                 self.cavando=False

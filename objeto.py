@@ -33,10 +33,16 @@ class Bomba(Objeto):
     def __init__(self, posInicial):
         self.image = imagen_redimensionada("sprites/bomba/inactiva.png",(TAMANO_RECUADRO/2),(TAMANO_RECUADRO/2))
         super().__init__(posInicial)
+        self.propagacion=0.2
     def interaccion_jugador(self,jugador):
         super().interaccion_jugador(jugador)
         jugador.stats.modificar_vida(-1)
-    
+    def update(self):
+        super().update()
+        if self.interactuable:
+            self.image = imagen_redimensionada("sprites/bomba/activa.png",(TAMANO_RECUADRO*self.propagacion),(TAMANO_RECUADRO*self.propagacion))
+            self.rect= self.image.get_rect(center=(self.posInicialX,self.posInicialY))
+            self.propagacion+=0.3
 class Escudo(Objeto):
     def __init__(self, posInicial):
         self.image = imagen_redimensionada("sprites/potenciador/escudo/escudo.png",(TAMANO_RECUADRO/2),(TAMANO_RECUADRO/2))
