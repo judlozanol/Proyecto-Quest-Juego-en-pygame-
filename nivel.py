@@ -58,7 +58,7 @@ class Nivel:
         self.tiles_booster = pygame.sprite.Group()
         self.tiles_treasure = pygame.sprite.GroupSingle()
         self.player = pygame.sprite.GroupSingle()
-        #self.objJugador = pygame.sprite.GroupSingle()
+        self.objJugador = pygame.sprite.GroupSingle()
         self.tiles_sand=pygame.sprite.Group()
 
         self.suelos=pygame.sprite.Group()
@@ -106,8 +106,19 @@ class Nivel:
                 if suelo.objetos.sprite.interactuable and suelo.objetos.sprite.rect.colliderect(self.player.sprite.rect):
                     if type(suelo.objetos.sprite).__name__=="Tesoro":
                         self.terminado=True
+                    if type(suelo.objetos.sprite).__name__=="Escudo":
+                        self.objJugador.add(suelo.objetos.sprite)
                     suelo.objetos.sprite.interaccion_jugador(self.player.sprite)
                     self.sueloObj.remove(suelo)
+                    
+    def validar_objJugador(self):
+        if self.player.sprite.objMano:
+            if self.player.sprite.flip:
+                self.objJugador.sprite.rect.center=self.player.sprite.rect.midleft
+            else:
+                self.objJugador.sprite.rect.center=self.player.sprite.rect.midright
+        else:
+            self.objJugador.empty()
 
     def run(self):
         #dibujar mapa
@@ -121,7 +132,8 @@ class Nivel:
         self.player.update()
         self.player.draw(self.capa)
 
-        #self.objJugador.draw(self.capa)
+        self.validar_objJugador()
+        self.objJugador.draw(self.capa)
         
         #actualiza la brujula
         self.brujulas.sprite.objeto_mas_cercano(self.player,self.sueloBruj)
