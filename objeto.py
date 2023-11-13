@@ -36,22 +36,42 @@ class Bomba(Objeto):
         self.propagacion=0.2
     def interaccion_jugador(self,jugador):
         super().interaccion_jugador(jugador)
-        jugador.stats.modificar_vida(-1)
+        if jugador.escudo:
+            jugador.escudo=False
+        else:
+            jugador.stats.modificar_vida(-1)
+            jugador.stats.modificar_puntaje(-50)
+
     def update(self):
         super().update()
         if self.interactuable:
             self.image = imagen_redimensionada("sprites/bomba/activa.png",(TAMANO_RECUADRO*self.propagacion),(TAMANO_RECUADRO*self.propagacion))
             self.rect= self.image.get_rect(center=(self.posInicialX,self.posInicialY))
             self.propagacion+=0.3
+
 class Escudo(Objeto):
     def __init__(self, posInicial):
         self.image = imagen_redimensionada("sprites/potenciador/escudo/escudo.png",(TAMANO_RECUADRO/2),(TAMANO_RECUADRO/2))
         super().__init__(posInicial)
+    def interaccion_jugador(self,jugador):
+        super().interaccion_jugador(jugador)
+        if jugador.escudo:
+            jugador.stats.modificar_puntaje(75)
+        else:
+            jugador.escudo=True
+            jugador.stats.modificar_puntaje(50)
 
 class Fruta(Objeto):
     def __init__(self, posInicial):
         self.image = imagen_redimensionada("sprites/potenciador/fruta/fruta.png",(TAMANO_RECUADRO/2),(TAMANO_RECUADRO/2))
         super().__init__(posInicial)
+    def interaccion_jugador(self, jugador):
+        super().interaccion_jugador(jugador)
+        if jugador.stats.vidas<jugador.stats.maxVidas:
+            jugador.stats.modificar_vida(1)
+            jugador.stats.modificar_puntaje(50)
+        else:
+            jugador.stats.modificar_puntaje(75)
 
 class Tesoro(Objeto):
     def __init__(self, posInicial):

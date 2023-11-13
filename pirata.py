@@ -119,3 +119,5 @@ class Pirata(pygame.sprite.Sprite):
             self.rect.top = ALTO_PANTALLA
         elif self.rect.top > ALTO_PANTALLA:
             self.rect.bottom = 0
+
+        print(self.stats.vidas,self.stats.puntaje,self.escudo)
