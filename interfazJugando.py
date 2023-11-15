@@ -10,9 +10,8 @@ class interfazJugando:
         self.nivel = Nivel(self.bombas,self.potenciadores,self.capa,self.statsPirata)
     def aumentar_objetos(self):
         self.bombas+=1
-        if self.bombas>=2:
-            if (self.bombas+1)%3==0:
-                self.potenciadores+=1
+        if self.bombas>=2 and (self.bombas)%2==0:
+            self.potenciadores+=1 
     def evaluar_nivel(self):
         if self.nivel.terminado:
             self.statsPirata= self.nivel.player.sprite.get_stats()
