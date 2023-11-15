@@ -4,6 +4,7 @@ from ajustes import TAMANO_RECUADRO
 from pirata import Pirata
 from suelo import *
 from brujula import Brujula
+from barraVida import BarraVida
 
 class Nivel:
     def __init__(self,bombas, potenciador, capa, statsPirata=False):
@@ -29,6 +30,8 @@ class Nivel:
         brujula=Brujula((0,0))
         self.brujulas=pygame.sprite.GroupSingle()
         self.brujulas.add(brujula)
+        
+        self.barraVida= BarraVida((TAMANO_RECUADRO/2,(TAMANO_RECUADRO/4)+ALTO_PANTALLA))
 
         self.terminado=False
 
@@ -139,6 +142,9 @@ class Nivel:
         self.brujulas.sprite.objeto_mas_cercano(self.player,self.sueloBruj)
         self.brujulas.update()
         self.brujulas.draw(self.capa)
+        
+        self.barraVida.analizar_vida(self.player.sprite)
+        self.barraVida.draw(self.capa)
 
         self.validar_colisiones()
         
