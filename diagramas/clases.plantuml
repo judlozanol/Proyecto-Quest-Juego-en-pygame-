@@ -27,31 +27,100 @@ Class Interfaz_Juego{
 
 }
 Class Nivel{
-    Calcular_distrancia_brujula()
+    estructura : [str]
+    capa : pygame.Surface
+    tesoro : int
+    jugador : int
+    bombas : int
+    potenciadores : int
+    tiles_bomb : pygame.sprite.Group
+    tiles_booster : pygame.sprite.Group
+    tiles_treasure : pygame.sprite.GroupSingle
+    tiles_sand : pygame.pygame.sprite.Group
+    player : pygame.sprite.GroupSingle
+    objJugador : pygame.sprite.GroupSingle
+    suelos : pygame.sprite.Group
+    suelosBruj : pygame.sprite.Group
+    sueloObj : pygame.sprite.Group
+
+    brujula : Brujula
+    brujulas : pygame.sprite.GroupSingle
+
+    terminado : bool
+
+    ubicar_elemento()
+    generar_nivel()
+    ubicar_nivel()
+    validar_colisiones()
+    run()
+
 }
 Interfaz_Juego *-- Nivel
 Nivel *-- Pirata 
 Class Pirata{
-    Sprite
-    Estado
+    pos : [x,y]
+    cavando : bool
+    flip : bool
+    escudo : bool 
+    objMano : bool
+    estado : stateM
+    preEstado : stateM
+    rapidez : float
+    direction : pygame.vector2
+    anchoSprite : float
+    altoSprite : float
+    velocidad_animacion : float
+    numSprite : float
+    animaciones : [pygame.image]
+    stats : PirataStats
 
-    mover_pirata()
-    cavar()
-    dar_posicion()
-    actualizar_sprite()
-    actualizar()
+    get_stats()
+    analizar_estado()
+    get_input()
+    cambiar_animaciones()
+    animar()
+    update()
 
 }
+Class PirataStats{
+    puntaje : int
+    vidas : int
+    maxVidas : int
+    modificar_puntaje()
+    modificar_vida()
+
+}
+Class StateM{
+    currentState
+    get_status()
+    set_status()
+}
+Pirata "1" *-- "2" StateM:"contiene"
+Pirata "1" *-- "1" PirataStats:"contiene"
 Nivel "1" *-- "60" Suelo:"contiene"
+Nivel "1" *-- "1" Brujula:"contiene"
+Class Brujula{
+    pos : [x,y]
+    texto : str
+    distancia : int 
+    color : str 
+    font : pygame.font
+    sprite : pygame
+    analizar_color()
+    objeto_mas_cercano()
+    update()
+}
 Class Suelo{
-    Sprite 
-    Objeto : None
-    Tamaño 
-    Estado : Cavado o no
-    Actualizar_estado()
-    Actualizar_Sprite()
-    Update()
-    Desenterrar_objeto()
+    sprite : pygame
+    capa : pygame.Surface
+    pos : [x,y]
+    desenterrado : bool
+    objeto : None
+    objetos : pygame.GroupSingle
+
+    desenterrar()
+    update()
+
 }
 Suelo <|-- SueloBomba
 Suelo <|-- SueloTesoro
@@ -62,13 +131,22 @@ SueloTesoro : Objeto : Tesoro
 SueloPotenciador : Objeto : Potenciador 
 
 Class Objeto{
-    Sprite
-    Interaccion_Jugador()
-    animcacion_salir()
+    Sprite : pygame
+    posInicialX : int
+    posInicialY : int
+    direction : pygame.Vector2
+    rapidez : float
+    interactuable : bool
+    usado : bool
+    interaccion_jugador()
+    desenterrar()
+    update()
 }
 Bomba --|> Objeto
 Potenciador --|> Objeto
 Tesoro --|> Objeto
+
+Bomba : propagacion : float
 
 SueloBomba "1" *-- "1" Bomba:"contiene"
 SueloPotenciador "1" *-- "1" Potenciador:"contiene"

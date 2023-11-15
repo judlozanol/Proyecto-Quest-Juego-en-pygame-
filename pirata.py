@@ -28,7 +28,6 @@ class Pirata(pygame.sprite.Sprite):
         self.animar()
         self.rect = self.image.get_rect(topleft=pos)
         
-        self.objeto=pygame.sprite.GroupSingle()
 
         if stats:
             self.stats=stats
