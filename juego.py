@@ -14,7 +14,7 @@ class Juego:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-            self.pantalla.fill('black')
+            self.pantalla.fill('white')
             
             self.estado.run()
             

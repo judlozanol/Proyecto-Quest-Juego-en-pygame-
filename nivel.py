@@ -4,6 +4,7 @@ from ajustes import TAMANO_RECUADRO
 from pirata import Pirata
 from suelo import *
 from brujula import Brujula
+from puntaje import Puntaje
 from barraVida import BarraVida
 
 class Nivel:
@@ -19,6 +20,7 @@ class Nivel:
         self.jugador=1
         self.bombas=bombas
         self.potenciador=potenciador
+        
         if statsPirata:
             self.statsPirata=statsPirata
         else:
@@ -30,6 +32,10 @@ class Nivel:
         brujula=Brujula((0,0))
         self.brujulas=pygame.sprite.GroupSingle()
         self.brujulas.add(brujula)
+        
+        puntaje=Puntaje((ANCHO_PANTALLA-TAMANO_RECUADRO/2,(TAMANO_RECUADRO/4)+ALTO_PANTALLA))
+        self.puntaje=pygame.sprite.GroupSingle()
+        self.puntaje.add(puntaje)
         
         self.barraVida= BarraVida((TAMANO_RECUADRO/2,(TAMANO_RECUADRO/4)+ALTO_PANTALLA))
 
@@ -67,11 +73,19 @@ class Nivel:
         self.suelos=pygame.sprite.Group()
         self.sueloBruj=pygame.sprite.Group()
         self.sueloObj=pygame.sprite.Group()
+        
         for row_index,row in enumerate(self.estructura):
             for column_index,column in enumerate(row):
                 x= column_index * TAMANO_RECUADRO
                 y= row_index * TAMANO_RECUADRO
-                if column=="B":
+                
+                if column=="T":
+                    tile= SueloTesoro((x,y), self.capa)
+                    self.tiles_treasure.add(tile)
+                    self.suelos.add(tile)
+                    self.sueloBruj.add(tile)
+                    self.sueloObj.add(tile)
+                elif column=="B":
                     tile= SueloBomba((x,y), self.capa)
                     self.tiles_bomb.add(tile)
                     self.suelos.add(tile)
@@ -83,12 +97,7 @@ class Nivel:
                     self.suelos.add(tile)
                     self.sueloBruj.add(tile)
                     self.sueloObj.add(tile)
-                elif column=="T":
-                    tile= SueloTesoro((x,y), self.capa)
-                    self.tiles_treasure.add(tile)
-                    self.suelos.add(tile)
-                    self.sueloBruj.add(tile)
-                    self.sueloObj.add(tile)
+                
                 elif column=="J" or column==" ":
                     tile= Suelo((x,y), self.capa)
                     self.tiles_sand.add(tile)
@@ -142,6 +151,10 @@ class Nivel:
         self.brujulas.sprite.objeto_mas_cercano(self.player,self.sueloBruj)
         self.brujulas.update()
         self.brujulas.draw(self.capa)
+        
+        self.puntaje.sprite.actualizar_puntaje(self.player.sprite)
+        self.puntaje.update()
+        self.puntaje.draw(self.capa)
         
         self.barraVida.analizar_vida(self.player.sprite)
         self.barraVida.draw(self.capa)
