@@ -14,7 +14,7 @@ class Suelo(pygame.sprite.Sprite):
         self.objeto = None
     def desenterrar(self):
         if not self.desenterrado:
-            self.image= imagen_redimensionada("sprites/arena/revolcada.jpg", TAMANO_RECUADRO, TAMANO_RECUADRO)
+            self.image= imagen_redimensionada("sprites/arena/revolcada.png", TAMANO_RECUADRO, TAMANO_RECUADRO)
             self.objetos.add(self.objeto) 
             self.desenterrado=True
         

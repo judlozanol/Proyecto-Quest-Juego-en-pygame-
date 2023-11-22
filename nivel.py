@@ -6,9 +6,10 @@ from suelo import *
 from brujula import Brujula
 from puntaje import Puntaje
 from barraVida import BarraVida
+from ronda import Ronda
 
 class Nivel:
-    def __init__(self,bombas, potenciador, capa, statsPirata=False):
+    def __init__(self,bombas, potenciador, capa ,statsPirata=False):
         self.estructura=["          ",
                         "          ",
                         "          ",
@@ -38,6 +39,10 @@ class Nivel:
         self.puntaje.add(puntaje)
         
         self.barraVida= BarraVida((TAMANO_RECUADRO/2,(TAMANO_RECUADRO/4)+ALTO_PANTALLA))
+        
+        ronda=Ronda((ANCHO_PANTALLA/2, ALTO_PANTALLA+ TAMANO_RECUADRO/2), self.bombas)
+        self.ronda=pygame.sprite.GroupSingle()
+        self.ronda.add(ronda)
 
         self.terminado=False
 
@@ -159,5 +164,7 @@ class Nivel:
         self.barraVida.analizar_vida(self.player.sprite)
         self.barraVida.draw(self.capa)
 
+        self.ronda.draw(self.capa)
+        
         self.validar_colisiones()
         
