@@ -1,11 +1,9 @@
-import pygame
-from ajustes import *
 from nivel import Nivel
 class interfazJugando:
-    def __init__(self,capa) -> None:
+    def __init__(self,capa):
         self.bombas= 1
         self.potenciadores= 0
-        self.capa=capa
+        
         self.statsPirata=False
         self.nivel = Nivel(self.bombas,self.potenciadores,self.capa,self.statsPirata)
     def aumentar_objetos(self):
