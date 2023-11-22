@@ -7,7 +7,7 @@ class Juego:
         self.pantalla= pygame.display.set_mode((ajustes.ANCHO_PANTALLA, ajustes.ALTO_PANTALLA+ajustes.TAMANO_RECUADRO))
         self.clock = pygame.time.Clock()
         self.activo=True
-        self.estado= interfazJugando(self.pantalla)
+        self.estado= InterfazJugando(self.pantalla)
     def correr(self):
         while self.activo:
             for event in pygame.event.get():

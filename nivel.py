@@ -34,7 +34,7 @@ class Nivel:
         self.brujulas=pygame.sprite.GroupSingle()
         self.brujulas.add(brujula)
         
-        puntaje=Puntaje((ANCHO_PANTALLA-TAMANO_RECUADRO/2,(TAMANO_RECUADRO/4)+ALTO_PANTALLA))
+        puntaje=Puntaje((ANCHO_PANTALLA-TAMANO_RECUADRO*2,(TAMANO_RECUADRO/2)+ALTO_PANTALLA))
         self.puntaje=pygame.sprite.GroupSingle()
         self.puntaje.add(puntaje)
         
@@ -44,7 +44,9 @@ class Nivel:
         self.ronda=pygame.sprite.GroupSingle()
         self.ronda.add(ronda)
 
+        
         self.terminado=False
+        self.gameOver=False
 
     def ubicar_elemento(self,elemento,letra:type[str]):
         while elemento>0:
@@ -136,35 +138,50 @@ class Nivel:
                 self.objJugador.sprite.rect.center=self.player.sprite.rect.midright
         else:
             self.objJugador.empty()
-
+            
+    def validar_gameOver(self):
+        if self.player.sprite.stats.vidas<=0:
+            self.gameOver=True
+            
     def run(self):
         #dibujar mapa
-        self.tiles_bomb.draw(self.capa)
-        self.tiles_booster.draw(self.capa)
-        self.tiles_treasure.draw(self.capa)
-        self.tiles_sand.draw(self.capa)
-        self.suelos.update()
+        if self.gameOver:
+            self.puntaje.sprite.posicion=(ANCHO_PANTALLA/2,ALTO_PANTALLA/2)
+            self.ronda.sprite.posicion=(ANCHO_PANTALLA/2,(ALTO_PANTALLA/2)+TAMANO_RECUADRO)
+            
+        else:
+            self.tiles_bomb.draw(self.capa)
+            self.tiles_booster.draw(self.capa)
+            self.tiles_treasure.draw(self.capa)
+            self.tiles_sand.draw(self.capa)
+            self.suelos.update()
 
-        #dibujar jugador
-        self.player.update()
-        self.player.draw(self.capa)
+            #dibujar jugador
+            self.player.update()
+            self.player.draw(self.capa)
 
-        self.validar_objJugador()
-        self.objJugador.draw(self.capa)
+            self.validar_objJugador()
+            self.objJugador.draw(self.capa)
+            
+            #actualiza la brujula
+            self.brujulas.sprite.objeto_mas_cercano(self.player,self.sueloBruj)
+            self.brujulas.update()
+            self.brujulas.draw(self.capa)
+            
+            self.barraVida.analizar_vida(self.player.sprite)
+            self.barraVida.draw(self.capa)
+
+            
+            
+            self.validar_colisiones()
+            
+            self.validar_gameOver()
         
-        #actualiza la brujula
-        self.brujulas.sprite.objeto_mas_cercano(self.player,self.sueloBruj)
-        self.brujulas.update()
-        self.brujulas.draw(self.capa)
+        self.ronda.update()
+        self.ronda.draw(self.capa)
         
         self.puntaje.sprite.actualizar_puntaje(self.player.sprite)
         self.puntaje.update()
         self.puntaje.draw(self.capa)
-        
-        self.barraVida.analizar_vida(self.player.sprite)
-        self.barraVida.draw(self.capa)
-
-        self.ronda.draw(self.capa)
-        
-        self.validar_colisiones()
+            
         

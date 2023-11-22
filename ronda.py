@@ -10,4 +10,6 @@ class Ronda(pygame.sprite.Sprite):
         self.image= self.font.render(self.texto, 1, self.color, None)
         self.posicion=pos
         self.rect=self.image.get_rect(center= self.posicion )
+    def update(self):
+        self.rect=self.image.get_rect(center= self.posicion )
     

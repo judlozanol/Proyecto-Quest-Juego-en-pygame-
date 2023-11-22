@@ -9,7 +9,7 @@ class Puntaje(pygame.sprite.Sprite):
         self.font= pygame.font.Font(pygame.font.get_default_font(),TAMANO_RECUADRO//3)
         self.image= self.font.render(self.texto, 1, self.color, None)
         self.posicion=pos
-        self.rect=self.image.get_rect(topright= self.posicion )
+        self.rect=self.image.get_rect(center= self.posicion )
         
     """actualiza el texto al acceder al puntaje de un jugador"""
     def actualizar_puntaje(self,jugador):
@@ -17,4 +17,4 @@ class Puntaje(pygame.sprite.Sprite):
         
     def update(self): 
         self.image= self.font.render(self.texto, 1, self.color, None)
-        self.rect=self.image.get_rect(topright= self.posicion )
+        self.rect=self.image.get_rect(center= self.posicion )
